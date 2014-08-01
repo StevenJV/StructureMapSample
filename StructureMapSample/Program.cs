@@ -7,11 +7,8 @@ namespace StructureMapSample
   public class Program
   {
     static void Main(string[] args) {
-      ObjectFactory.Configure(config => {
-        config.Scan(scan => {
-          scan.TheCallingAssembly();
-          scan.WithDefaultConventions();
-        });
+      var container = new Container();
+      container.Configure(config => {
         config.For<IDumpable>().Use<DumpToScreen>();
         config.For<IDumpPeople>().Use<DumpPeople>();
       });
@@ -19,7 +16,7 @@ namespace StructureMapSample
       var steven = new Person { Name = "Steven" };
       var jace = new Person { Name = "Jace" };
 
-      var dumper = ObjectFactory.GetInstance<IDumpPeople>();
+      var dumper = container.GetInstance<IDumpPeople>();
 
       dumper.DumpPerson(steven);
     }
